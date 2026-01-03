@@ -1,27 +1,75 @@
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        BusDAO busDAO = new BusDAO();
 
-        Bus bus1 = new Bus(1, "Volvo", 40);
-        Bus bus2 = new Bus(2, "Mercedes", 30);
+        while (true) {
+            System.out.println("\n--- BUS CRUD MENU ---");
+            System.out.println("1) Add bus");
+            System.out.println("2) Show all buses");
+            System.out.println("3) Update bus");
+            System.out.println("4) Delete bus");
+            System.out.println("0) Exit");
+            System.out.print("Choose: ");
 
-        Passenger passenger1 = new Passenger(101, "Amina", 20);
-        Passenger passenger2 = new Passenger(102, "Timur", 22);
+            int choice = sc.nextInt();
 
-        TransportService service1 = new TransportService(1, "City Transport");
-        TransportService service2 = new TransportService(2, "Express Line");
+            try {
+                if (choice == 0) break;
 
-        System.out.println(bus1.info());
-        System.out.println(bus2.info());
+                if (choice == 1) {
+                    System.out.print("id: ");
+                    int id = sc.nextInt();
+                    System.out.print("model: ");
+                    String model = sc.next();
+                    System.out.print("capacity: ");
+                    int cap = sc.nextInt();
 
-        System.out.println(passenger1.info());
-        System.out.println(passenger2.info());
+                    busDAO.insertBus(new Bus(id, model, cap));
+                    System.out.println("Inserted.");
 
-        System.out.println(service1.info());
-        System.out.println(service2.info());
+                } else if (choice == 2) {
+                    List<Bus> buses = busDAO.getAllBuses();
+                    for (Bus b : buses) System.out.println(b.info());
 
-        System.out.println("Same bus id? " + (bus1.getId() == bus2.getId()));
-        System.out.println("Same passenger id? " + (passenger1.getId() == passenger2.getId()));
-        System.out.println("Same service id? " + (service1.getId() == service2.getId()));
+                } else if (choice == 3) {
+                    System.out.print("id to update: ");
+                    int id = sc.nextInt();
+                    Bus existing = busDAO.getBusById(id);
+                    if (existing == null) {
+                        System.out.println("Not found.");
+                    } else {
+                        System.out.print("new model: ");
+                        String model = sc.next();
+                        System.out.print("new capacity: ");
+                        int cap = sc.nextInt();
+
+                        existing.setModel(model);
+                        existing.setCapacity(cap);
+                        busDAO.updateBus(existing);
+                        System.out.println("Updated.");
+                    }
+
+                } else if (choice == 4) {
+                    System.out.print("id to delete: ");
+                    int id = sc.nextInt();
+                    busDAO.deleteBus(id);
+                    System.out.println("Deleted.");
+
+                } else {
+                    System.out.println("Wrong option.");
+                }
+
+            } catch (SQLException e) {
+                System.out.println("DB error: " + e.getMessage());
+            }
+        }
+
+        sc.close();
+        System.out.println("Bye!");
     }
 }
-
