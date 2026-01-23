@@ -8,11 +8,11 @@ public class Main {
         BusDAO busDAO = new BusDAO();
 
         while (true) {
-            System.out.println("\n--- BUS CRUD MENU ---");
             System.out.println("1) Add bus");
             System.out.println("2) Show all buses");
             System.out.println("3) Update bus");
             System.out.println("4) Delete bus");
+            System.out.println("5)Add a column");
             System.out.println("0) Exit");
             System.out.print("Choose: ");
 
@@ -59,6 +59,17 @@ public class Main {
                     int id = sc.nextInt();
                     busDAO.deleteBus(id);
                     System.out.println("Deleted.");
+
+
+                }
+                else if (choice == 5) {
+                    System.out.print("column name: ");
+                    String name = sc.nextLine();
+                    System.out.println("type of data: ");
+                    String type = sc.next();
+                    busDAO.addcolumnBus(name,type);
+                    System.out.println("Added.");
+
 
                 } else {
                     System.out.println("Wrong option.");

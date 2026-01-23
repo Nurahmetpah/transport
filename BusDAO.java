@@ -79,4 +79,17 @@ public class BusDAO {
             ps.executeUpdate();
         }
     }
-}
+    public void addcolumnBus(String nname, String ntype) throws SQLException {
+        String sql = "ALTER TABLE bus" + " ADD COLUMN " + nname + " " + ntype;
+        try (Connection con = DB.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.executeUpdate();
+        }
+
+    }
+
+
+    }
+
+
+

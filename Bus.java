@@ -3,15 +3,18 @@ import java.util.Objects;
 public class Bus extends Entity { // inheritance
     private String model;
     private int capacity;
+    //private String condition;
 
     public Bus(int id, String model, int capacity) {
-        super(id); // call Entity constructor
+        super(id);
         this.model = model;
         this.capacity = capacity;
+        //this.condition = condition;
     }
 
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }
+
 
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
